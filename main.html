@@ -15,11 +15,12 @@
 
 <body>
 
-
+  <!-- Jumbotron -->
   <div class="jumbotron" id="mainJumbotron">
     <h1 class="display-4">Slack Trivia</h1>
   </div>
 
+  <!-- Trivia Setup div, this is what needs to be cleared and questions/answers will display in after the game is setup (on-click) -->
   <div class="container" id="triviaSetup">
     <div class="form-group">
       <label for="exampleSelect1">Number of Questions</label>
@@ -55,14 +56,16 @@
                   <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
                   <option value="32">Entertainment: Cartoon &amp; Animations</option>						
                 </select>
-                    <label for="exampleSelect1">Number of Questions</label>
+                    <label for="exampleSelect1">Difficulty</label>
                     <select class="form-control" id="difficulty">
                       <option>Easy</option>
                       <option>Medium</option>
                       <option>Hard</option>
                     </select>
                     <br>
-                    <button type="button" class="btn btn-warning btn-lg btn-block">Trivia Time!</button>
+                    
+                    <!-- On Click Event #startGame  -->
+                    <button type="button" id="startGame" class="btn btn-warning btn-lg btn-block">Trivia Time!</button>
 
 
 
@@ -70,14 +73,11 @@
 
 
 
-       
 
 
 
 
 
-
-<<<<<<< Updated upstream
 
 
 
@@ -86,27 +86,14 @@
 
 
 
-        <!-- FIREBASE -->
-        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-        <!-- BOOTSTRAP JS CDNS WITH JQUERY -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-          crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-          crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-          crossorigin="anonymous"></script>
-        <!-- OUR JS FILE -->
-        <script src="app.js"></script>
-=======
-    <!-- FIREBASE -->
-    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+        <!-- JQUERY -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
 <!-- BOOTSTRAP JS CDNS WITH JQUERY -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- OUR JS FILE -->
     <script src="app.js"></script>
->>>>>>> Stashed changes
 </body>
-
 </html>
