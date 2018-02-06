@@ -1,57 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Main</title>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Main</title>
 <!-- BOOTSTRAP CDN -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    <!-- OUR CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+  crossorigin="anonymous">
+<!-- OUR CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-        <div class="jumbotron" id="mainJumbotron">
-                <h1 class="display-4">My Home</h1>
-                <p class="lead">Create the home of your dreams inside and out!</p>
-              </div>
 
-              <div class="container">
-              <form>
-                    <div class="form-row">
-                      <div class="col">
-                        <i class="fas fa-home"></i>                        
-                        <input type="text" class="form-control" placeholder="House Image"> 
-                      </div>
-                      <div class="col">
-                        <input type="text" class="form-control" placeholder="Location">
-                      </div>
-                      <div class="col">
-                            <input type="text" class="form-control" placeholder="Price">
-                          </div>
+  <div class="jumbotron" id="mainJumbotron">
+    <h1 class="display-4">Slack Trivia</h1>
+  </div>
 
-                    
-                         <select class=“form-control”>
-                                    <option>Styles</option>
-                                    <option>Bohemian</option>
-                                    <option>Coastal</option>
-                                    <option>French Country</option>
-                                    <option>Industrial</option>
-                                    <option>Mid Century</option>
-                                    <option>Minimalist</option>
-                                    <option>Modern</option>
-                                    <option>Rustic</option>
-                                    <option>Shabby Chic</option>
-                                    <option>Traditional</option>
-                                    <option>Victorian</option>
+  <div class="container" id="triviaSetup">
+    <div class="form-group">
+      <label for="exampleSelect1">Number of Questions</label>
+      <select class="form-control" id="numberQuestions">
+        <option>6</option>
+        <option>9</option>
+        <option>12</option>
+      </select>
+          <label for="exampleSelect1">Category</label>
+          <select class="form-control" id="category">
+                  <option value="9">General Knowledge</option>
+                  <option value="10">Entertainment: Books</option>
+                  <option value="11">Entertainment: Film</option>
+                  <option value="12">Entertainment: Music</option>
+                  <option value="13">Entertainment: Musicals &amp; Theatres</option>
+                  <option value="14">Entertainment: Television</option>
+                  <option value="15">Entertainment: Video Games</option>
+                  <option value="16">Entertainment: Board Games</option>
+                  <option value="17">Science &amp; Nature</option>
+                  <option value="18">Science: Computers</option>
+                  <option value="19">Science: Mathematics</option>
+                  <option value="20">Mythology</option>
+                  <option value="21">Sports</option>
+                  <option value="22">Geography</option>
+                  <option value="23">History</option>
+                  <option value="24">Politics</option>
+                  <option value="25">Art</option>
+                  <option value="26">Celebrities</option>
+                  <option value="27">Animals</option>
+                  <option value="28">Vehicles</option>
+                  <option value="29">Entertainment: Comics</option>
+                  <option value="30">Science: Gadgets</option>
+                  <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+                  <option value="32">Entertainment: Cartoon &amp; Animations</option>						
+                </select>
+                    <label for="exampleSelect1">Number of Questions</label>
+                    <select class="form-control" id="difficulty">
+                      <option>Easy</option>
+                      <option>Medium</option>
+                      <option>Hard</option>
+                    </select>
+                    <br>
+                    <button type="button" class="btn btn-warning btn-lg btn-block">Trivia Time!</button>
 
-                                   </select>
-               
-                  </form>
 
-                  
+
+
 
 
 
@@ -59,18 +74,28 @@
 
 
 
-    </div>
 
 
-  
 
-    <!-- FIREBASE -->
-    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-<!-- BOOTSTRAP JS CDNS WITH JQUERY -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- OUR JS FILE -->
-    <script src="app.js"></script>
+
+
+
+        </div>
+
+
+
+
+        <!-- FIREBASE -->
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+        <!-- BOOTSTRAP JS CDNS WITH JQUERY -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+          crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+          crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+          crossorigin="anonymous"></script>
+        <!-- OUR JS FILE -->
+        <script src="app.js"></script>
 </body>
+
 </html>
