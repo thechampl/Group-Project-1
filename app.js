@@ -36,6 +36,33 @@ $.ajax({
   }
 });
 
+//Sameea Mughnee
+$("#triviaSetUp").on("click", function"() {
+  $.ajax({
+    url: "https://opentdb.com/api.php?amount=" + numberQuestions "&=" + category + "&=" + difficulty + "&type=multiple&encode=url3986";,
+    method: "GET"
+  }).done(function(response){
+  
+    console.log(response);
+    
+  });
+}
+
+var numberQuestions = $("#numberQuestions").val();
+var category = $("#category").val();
+var difficulty = $("#difficulty").val(); 
+
+var triviaURL = "https://opentdb.com/api.php?amount=" + numberQuestions "&=" + category + "&=" + difficulty + "&type=multiple&encode=url3986";
+
+
+if (questionnumber <= numberQuestions/3) {
+  difficulty === "Easy";
+} else if (questionnumber > numberQuestions/3 && questionnumber <= (numberQuesions/3)*2) {
+  difficulty === "Medium";
+} else if (questionnumber > (numberQuestions/3)*2 && questionnumber <= numberQuesions) {
+  difficulty === "Hard";
+}
+
 //Limit to one sesssion by disabling Start button if one session already exisits
 
 //Listener for "Start" messages from users that will change their playing to TRUE
