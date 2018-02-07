@@ -15,11 +15,13 @@
 
 <body>
 
-
+  <!-- Jumbotron -->
   <div class="jumbotron" id="mainJumbotron">
     <h1 class="display-4">Slack Trivia</h1>
   </div>
+  <div id="timerDiv"></div>
 
+  <!-- Trivia Setup div, this is what needs to be cleared and questions/answers will display in after the game is setup (on-click) -->
   <div class="container" id="triviaSetup">
     <div class="form-group">
       <label for="exampleSelect1">Number of Questions</label>
@@ -55,14 +57,16 @@
                   <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
                   <option value="32">Entertainment: Cartoon &amp; Animations</option>						
                 </select>
-                    <label for="exampleSelect1">Number of Questions</label>
+                    <label for="exampleSelect1">Difficulty</label>
                     <select class="form-control" id="difficulty">
                       <option>Easy</option>
                       <option>Medium</option>
                       <option>Hard</option>
                     </select>
                     <br>
-                    <button type="button" class="btn btn-warning btn-lg btn-block">Trivia Time!</button>
+                    
+                    <!-- On Click Event #startGame  -->
+                    <button type="button" id="startGame" class="btn btn-warning btn-lg btn-block">Trivia Time!</button>
 
 
 
@@ -70,14 +74,12 @@
 
 
 
-       
 
 
 
+    </div>
 
-
-
-    <!-- JQUERY -->
+<!--JQUERY  -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
@@ -87,5 +89,4 @@
     <!-- OUR JS FILE -->
     <script src="app.js"></script>
 </body>
-
 </html>
