@@ -65,11 +65,14 @@ $.ajax({
 
 //On last question show leader board, say game over, highlight top 3
 
+var x = 0; 
+
 $("#startGame").on("click", function(){
   var numberQuestions = $("#numberQuestions").val();
   var category = $("#category").val();
   var difficulty = $("#difficulty").val().toLowerCase();
   var answerArray = [];
+  
   
 
 $.ajax({
@@ -77,24 +80,46 @@ $.ajax({
   method: "GET"})
 
   .done(function(response){
-    $("#triviaSetup").empty();
-   $("#triviaSetup").append((response.results[0].question));
+    
   //  var answerDiv = $("<div> id='answerDiv'");
   //  $("#triviaSetup").append(answerDiv);
 
-  // pushing answers into an array then sorting them
-   answerArray.push(response.results[0].correct_answer);
-   answerArray.push(response.results[0].incorrect_answers[0]);
-   answerArray.push(response.results[0].incorrect_answers[1]);
-   answerArray.push(response.results[0].incorrect_answers[2]);
+  //trivia function, pushing answers into an array then sorting them
+  var trivia= function(){
+    $("#triviaSetup").empty();
+   $("#triviaSetup").text((response.results[x].question).toString());
+   answerArray.push(response.results[x].correct_answer);
+   answerArray.push(response.results[x].incorrect_answers[0]);
+   answerArray.push(response.results[x].incorrect_answers[1]);
+   answerArray.push(response.results[x].incorrect_answers[2]);
    answerArray.sort()
    console.log(answerArray);
-
-    
+  }
+  trivia();
   
-  })
+
+// timer function
+    var counter = 10;
+    
+   var countdown = setInterval(function(){
+    counter--;
+    if(counter <0){ 
+      answerArray = [];
+      counter = 10;
+    x= x + 1;     
+    trivia();        
+    
+    }
+    else {      
+      $("#timerDiv").text("Time Left: " + counter.toString() + " seconds");
+      
+    }
+  }, 1000);
 
 
-});
+  });
+    });
+    
+ 
 
-answerArray
+
