@@ -145,23 +145,31 @@ $("#startGame").on("click", function () {
       var trivia = function () {
         $("#triviaSetup").empty();
         $("#triviaSetup").html((response.results[x].question))
+var correctAnswer= response.results[x].correct_answer;
         answerArray.push(response.results[x].correct_answer);
         answerArray.push(response.results[x].incorrect_answers[0]);
         answerArray.push(response.results[x].incorrect_answers[1]);
         answerArray.push(response.results[x].incorrect_answers[2]);
         answerArray.sort()
+      var correctNumber = (answerArray.indexOf(correctAnswer) + 1)
 
+        // creates buttons with id of its index value
         for (i = 0; i < answerArray.length; i++) {
 
-          var answerButton = $("<button, class='btn btn-primary btn-lg btn-block'>");
+          var answerButton = $("<button class='btn btn-primary btn-lg btn-block'>");
           answerButton.append(answerArray[i]);
-          answerButton.attr("data-id", i);
           $("#triviaSetup").append(answerButton);
 
+          
+          
+            
+        
+    
         }
 
       }
       trivia();
+    
 
 
       // timer function
@@ -182,8 +190,16 @@ $("#startGame").on("click", function () {
         }
       }, 1000);
 
+     
+    
+   
 
-    });
+});
+
+
+
+
+
 });
 
 
