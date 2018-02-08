@@ -1,0 +1,11 @@
+
+.DS_Store
+.vscode
+nodemon.json
+
+node_modules/
+dist/
+
+*.log
+*.swp
+*config.dev.js

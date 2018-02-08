@@ -2,30 +2,63 @@
 
 
 // Initialize Firebase
-// var config = {
-//   apiKey: "AIzaSyCMbj3WWdbHZ5Of9DkgN1sBMwoOh0jrmd8",
-//   authDomain: "slack-trivia-a81b8.firebaseapp.com",
-//   databaseURL: "https://slack-trivia-a81b8.firebaseio.com",
-//   projectId: "slack-trivia-a81b8",
-//   storageBucket: "slack-trivia-a81b8.appspot.com",
-//   messagingSenderId: "665823338618"
-// };
-// firebase.initializeApp(config);
+var config = {
+  apiKey: "AIzaSyCMbj3WWdbHZ5Of9DkgN1sBMwoOh0jrmd8",
+  authDomain: "slack-trivia-a81b8.firebaseapp.com",
+  databaseURL: "https://slack-trivia-a81b8.firebaseio.com",
+  projectId: "slack-trivia-a81b8",
+  storageBucket: "slack-trivia-a81b8.appspot.com",
+  messagingSenderId: "665823338618"
+};
+firebase.initializeApp(config);
 
-// var database = firebase.database();
+var database = firebase.database();
 
 //On page load, get all users from Trivia channel and create players in firebase. Each player will have, playing: boolean, wins, losses, answer, prof pic
 
-//Jessi Cord
-var slackToken = 'xoxp-272287974608-273244613333-311222493126-e22d048827cc08d9c07469ba50940696';
-var slackURL = "https://slack.com/api/users.list?token=" + slackToken;
+
+var slackChannel = "C94B6F9GA";
+var slackURL = "https://slack.com/api/conversations.members?token=" + api.slackToken + "&channel=" + slackChannel;
+
+var userIDs = [];
 
 $.ajax({
-  url: "https://slack.com/api/users.list?token=xoxp-272287974608-273244613333-311222493126-e22d048827cc08d9c07469ba50940696",
+  url: slackURL,
   method: "GET"
 }).done(function(response){
 
-  console.log(response);
+  var members = response.members;
+  
+  members.forEach(function(member){
+    userIDs.push(member);
+  })
+  
+  userIDs.forEach(function(userID){
+
+    var slackUserURL = "https://slack.com/api/users.info?token=" + api.slackToken + "&user=" + userID;
+
+    $.ajax({
+      url: slackUserURL,
+      method: "GET"
+    }).done(function(response){
+      console.log(response);
+      console.log(response.user.real_name);
+
+      database.ref("/players/").push({
+        name: response.user.real_name,
+        image: response.user.profile.image_512,
+        userdID: userID,
+        answer: "",
+        score: 0
+      })
+
+      database.ref("/players/").onDisconnect().remove();
+    
+    })
+
+  })
+
+
 
 }).fail((xhr) => {
   if (xhr.status === 429) {
@@ -35,6 +68,7 @@ $.ajax({
     console.log(xhr);
   }
 });
+
 
 //Limit to one sesssion by disabling Start button if one session already exisits
 
@@ -65,3 +99,24 @@ $.ajax({
 
 //On last question show leader board, say game over, highlight top 3
 
+
+//QUESTIONS:
+//Use webhook to post question in message to Channel
+//Get the last message to the channel thread_ts: https://slack.com/api/channels.history?token=xoxp-272287974608-273129035205-304371301861-0164c7d0692bf6f803a0dce7aa378430&channel=C94B6F9GA&count=1
+//Take the thread_ts of the message to get the replies after the timeout: https://slack.com/api/channels.history?token=xoxp-272287974608-273129035205-304371301861-0164c7d0692bf6f803a0dce7aa378430&channel=C94B6F9GA&thred_ts=THREAD_ID
+//For each message take the User and look up the userID in Firebase and store their answer
+
+var slackPostURL = "https://hooks.slack.com/services/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";
+var message = "Hello World";
+
+$.ajax({
+  data: 'payload=' + JSON.stringify({
+      "text": message
+  }),
+  dataType: 'application/json',
+  processData: false,
+  type: 'POST',
+  url: slackPostURL
+}).done(function(response){
+  console.log(response);
+});
