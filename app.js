@@ -23,7 +23,7 @@ var slackURL = "https://slack.com/api/users.list?token=" + slackToken;
 $.ajax({
   url: "https://slack.com/api/users.list?token=xoxp-272287974608-273244613333-311222493126-e22d048827cc08d9c07469ba50940696",
   method: "GET"
-}).done(function(response){
+}).done(function (response) {
 
   console.log(response);
 
@@ -36,32 +36,6 @@ $.ajax({
   }
 });
 
-//Sameea Mughnee
-$("#triviaSetUp").on("click", function"() {
-  $.ajax({
-    url: "https://opentdb.com/api.php?amount=" + numberQuestions "&=" + category + "&=" + difficulty + "&type=multiple&encode=url3986";,
-    method: "GET"
-  }).done(function(response){
-  
-    console.log(response);
-    
-  });
-}
-
-var numberQuestions = $("#numberQuestions").val();
-var category = $("#category").val();
-var difficulty = $("#difficulty").val(); 
-
-var triviaURL = "https://opentdb.com/api.php?amount=" + numberQuestions "&=" + category + "&=" + difficulty + "&type=multiple&encode=url3986";
-
-
-if (questionnumber <= numberQuestions/3) {
-  difficulty === "Easy";
-} else if (questionnumber > numberQuestions/3 && questionnumber <= (numberQuesions/3)*2) {
-  difficulty === "Medium";
-} else if (questionnumber > (numberQuestions/3)*2 && questionnumber <= numberQuesions) {
-  difficulty === "Hard";
-}
 
 //Limit to one sesssion by disabling Start button if one session already exisits
 
@@ -92,61 +66,70 @@ if (questionnumber <= numberQuestions/3) {
 
 //On last question show leader board, say game over, highlight top 3
 
-var x = 0; 
+var x = 0;
 
-$("#startGame").on("click", function(){
+$("#startGame").on("click", function () {
   var numberQuestions = $("#numberQuestions").val();
   var category = $("#category").val();
   var difficulty = $("#difficulty").val().toLowerCase();
   var answerArray = [];
-  
-  
-
-$.ajax({
-  url: "https://opentdb.com/api.php?amount=" + numberQuestions + "&category=" + category + "&difficulty=" + difficulty + "&type=multiple",
-  method: "GET"})
-
-  .done(function(response){
-    
-  //  var answerDiv = $("<div> id='answerDiv'");
-  //  $("#triviaSetup").append(answerDiv);
-
-  //trivia function, pushing answers into an array then sorting them
-  var trivia= function(){
-    $("#triviaSetup").empty();
-   $("#triviaSetup").text((response.results[x].question).toString());
-   answerArray.push(response.results[x].correct_answer);
-   answerArray.push(response.results[x].incorrect_answers[0]);
-   answerArray.push(response.results[x].incorrect_answers[1]);
-   answerArray.push(response.results[x].incorrect_answers[2]);
-   answerArray.sort()
-   console.log(answerArray);
-  }
-  trivia();
-  
-
-// timer function
-    var counter = 10;
-    
-   var countdown = setInterval(function(){
-    counter--;
-    if(counter <0){ 
-      answerArray = [];
-      counter = 10;
-    x= x + 1;     
-    trivia();        
-    
-    }
-    else {      
-      $("#timerDiv").text("Time Left: " + counter.toString() + " seconds");
-      
-    }
-  }, 1000);
 
 
-  });
+
+  $.ajax({
+    url: "https://opentdb.com/api.php?amount=" + numberQuestions + "&category=" + category + "&difficulty=" + difficulty + "&type=multiple",
+    method: "GET"
+  })
+
+    .done(function (response) {
+
+
+
+      //trivia function, pushing answers into an array then sorting them
+      var trivia = function () {
+        $("#triviaSetup").empty();
+        $("#triviaSetup").html((response.results[x].question))
+        answerArray.push(response.results[x].correct_answer);
+        answerArray.push(response.results[x].incorrect_answers[0]);
+        answerArray.push(response.results[x].incorrect_answers[1]);
+        answerArray.push(response.results[x].incorrect_answers[2]);
+        answerArray.sort()
+
+        for (i = 0; i < answerArray.length; i++) {
+
+          var answerButton = $("<button, class='btn btn-primary btn-lg btn-block'>");
+          answerButton.append(answerArray[i]);
+          answerButton.attr("data-id", i);
+          $("#triviaSetup").append(answerButton);
+
+        }
+
+      }
+      trivia();
+
+
+      // timer function
+      var counter = 10;
+
+      var countdown = setInterval(function () {
+        counter--;
+        if (counter < 0) {
+          answerArray = [];
+          counter = 10;
+          x = x + 1;
+          trivia();
+
+        }
+        else {
+          $("#timerDiv").text("Time Left: " + counter.toString() + " seconds");
+
+        }
+      }, 1000);
+
+
     });
-    
- 
+});
+
+
 
 
