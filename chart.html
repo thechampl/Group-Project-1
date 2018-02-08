@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- CHART -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <title>TRIVIA SLACK</title>
+</head>
+<body>
+    <!-- Leader Board data placed at line 24 -->
+    <canvas id="myChart" width="100" height="100"></canvas>
+        <script>
+            var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Leader 1", "Leader 2", "Leader 3", "Leader 4", "Leader 5"],
+        datasets: [{
+            label: 'Leader',
+            data:[6,5,4,3,2],
+            backgroundColor: [
+                'red',
+                'blue',
+                'green',
+                'purple',
+                'yellow', 
+            ],
+            borderColor: [
+                'red',
+                'blue',
+                'green',
+                'purple',
+                'yellow',
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+
+</script>
+</body>
+</html>
