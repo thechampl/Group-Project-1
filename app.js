@@ -103,8 +103,8 @@ $.ajax({
 
 //QUESTIONS:
 //Use webhook to post question in message to Channel
-//Get the last message to the channel thread_ts: https://slack.com/api/channels.history?token=xoxp-272287974608-273129035205-304371301861-0164c7d0692bf6f803a0dce7aa378430&channel=C94B6F9GA&count=1
-//Take the thread_ts of the message to get the replies after the timeout: https://slack.com/api/channels.history?token=xoxp-272287974608-273129035205-304371301861-0164c7d0692bf6f803a0dce7aa378430&channel=C94B6F9GA&thred_ts=THREAD_ID
+//Get the last message to the channel thread_ts: https://slack.com/api/channels.history?token=SLACKTOKEN&channel=C94B6F9GA&count=1
+//Take the thread_ts of the message to get the replies after the timeout: https://slack.com/api/channels.history?token=SLACKTOKEN&channel=C94B6F9GA&thred_ts=THREAD_ID
 //For each message take the User and look up the userID in Firebase and store their answer
 
 var slackPostURL = "https://hooks.slack.com/services/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";
