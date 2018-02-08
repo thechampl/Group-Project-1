@@ -42,3 +42,13 @@ a:hover
     text-align: center;   
     color: white;
   }
+#timerDiv{
+    text-align: center;
+    font-size: 60px;
+    margin-top:0px;
+}
+
+#triviaSetup{
+    
+    font-size: 30px;
+}

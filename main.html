@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="UTF-8">
+<meta charset="ASCII">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Main</title>
@@ -15,11 +15,13 @@
 
 <body>
 
-
+  <!-- Jumbotron -->
   <div class="jumbotron" id="mainJumbotron">
     <h1 class="display-4">Slack Trivia</h1>
   </div>
-
+  <div id="timerDiv"></div>
+"
+  <!-- Trivia Setup div, this is what needs to be cleared and questions/answers will display in after the game is setup (on-click) -->
   <div class="container" id="triviaSetup">
     <div class="form-group">
       <label for="exampleSelect1">Number of Questions</label>
@@ -55,22 +57,17 @@
                   <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
                   <option value="32">Entertainment: Cartoon &amp; Animations</option>						
                 </select>
-                    <label for="exampleSelect1">Number of Questions</label>
+                    <label for="exampleSelect1">Difficulty</label>
                     <select class="form-control" id="difficulty">
                       <option>Easy</option>
                       <option>Medium</option>
                       <option>Hard</option>
                     </select>
                     <br>
-                    <button type="button" class="btn btn-warning btn-lg btn-block">Trivia Time!</button>
+                    
+                    <!-- On Click Event #startGame  -->
+                    <button type="button" id="startGame" class="btn btn-warning btn-lg btn-block">Trivia Time!</button>
 
-
-
-
-
-
-
-       
 
 
 
@@ -80,12 +77,11 @@
 
 
 
-        </div>
+    </div>
 
 
+<!--JQUERY  -->
 
-
-       <!-- JQUERY -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
@@ -93,9 +89,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- OUR JS FILE -->
-<script src="config.dev.js"></script>
-<script src="app.js"></script>
-    
-</body>
 
+    
+
+  <script src="config.dev.js"></script>
+    <script src="app.js"></script>
+
+</body>
 </html>

@@ -25,7 +25,7 @@ var userIDs = [];
 $.ajax({
   url: slackURL,
   method: "GET"
-}).done(function(response){
+}).done(function (response) {
 
   var members = response.members;
   
@@ -100,6 +100,7 @@ $.ajax({
 //On last question show leader board, say game over, highlight top 3
 
 
+
 //QUESTIONS:
 //Use webhook to post question in message to Channel
 //Get the last message to the channel thread_ts: https://slack.com/api/channels.history?token=xoxp-272287974608-273129035205-304371301861-0164c7d0692bf6f803a0dce7aa378430&channel=C94B6F9GA&count=1
@@ -120,3 +121,72 @@ $.ajax({
 }).done(function(response){
   console.log(response);
 });
+=======
+var x = 0;
+
+$("#startGame").on("click", function () {
+  var numberQuestions = $("#numberQuestions").val();
+  var category = $("#category").val();
+  var difficulty = $("#difficulty").val().toLowerCase();
+  var answerArray = [];
+
+
+
+  $.ajax({
+    url: "https://opentdb.com/api.php?amount=" + numberQuestions + "&category=" + category + "&difficulty=" + difficulty + "&type=multiple",
+    method: "GET"
+  })
+
+    .done(function (response) {
+
+
+
+      //trivia function, pushing answers into an array then sorting them
+      var trivia = function () {
+        $("#triviaSetup").empty();
+        $("#triviaSetup").html((response.results[x].question))
+        answerArray.push(response.results[x].correct_answer);
+        answerArray.push(response.results[x].incorrect_answers[0]);
+        answerArray.push(response.results[x].incorrect_answers[1]);
+        answerArray.push(response.results[x].incorrect_answers[2]);
+        answerArray.sort()
+
+        for (i = 0; i < answerArray.length; i++) {
+
+          var answerButton = $("<button, class='btn btn-primary btn-lg btn-block'>");
+          answerButton.append(answerArray[i]);
+          answerButton.attr("data-id", i);
+          $("#triviaSetup").append(answerButton);
+
+        }
+
+      }
+      trivia();
+
+
+      // timer function
+      var counter = 10;
+
+      var countdown = setInterval(function () {
+        counter--;
+        if (counter < 0) {
+          answerArray = [];
+          counter = 10;
+          x = x + 1;
+          trivia();
+
+        }
+        else {
+          $("#timerDiv").text("Time Left: " + counter.toString() + " seconds");
+
+        }
+      }, 1000);
+
+
+    });
+});
+
+
+
+
+
