@@ -26,6 +26,7 @@ $.ajax({
   url: slackURL,
   method: "GET"
 }).done(function (response) {
+  console.log(response);
 
   var members = response.members;
   
@@ -107,21 +108,8 @@ $.ajax({
 //Take the thread_ts of the message to get the replies after the timeout: https://slack.com/api/channels.history?token=SLACKTOKEN&channel=C94B6F9GA&thred_ts=THREAD_ID
 //For each message take the User and look up the userID in Firebase and store their answer
 
-var slackPostURL = "https://hooks.slack.com/services/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";
-var message = "Hello World";
 
-$.ajax({
-  data: 'payload=' + JSON.stringify({
-      "text": message
-  }),
-  dataType: 'application/json',
-  processData: false,
-  type: 'POST',
-  url: slackPostURL
-}).done(function(response){
-  console.log(response);
-});
-=======
+
 var x = 0;
 
 $("#startGame").on("click", function () {
@@ -129,6 +117,7 @@ $("#startGame").on("click", function () {
   var category = $("#category").val();
   var difficulty = $("#difficulty").val().toLowerCase();
   var answerArray = [];
+  var slackQuestion = "";
 
 
 
@@ -144,14 +133,62 @@ $("#startGame").on("click", function () {
       //trivia function, pushing answers into an array then sorting them
       var trivia = function () {
         $("#triviaSetup").empty();
-        $("#triviaSetup").html((response.results[x].question))
-var correctAnswer= response.results[x].correct_answer;
+        $("#triviaSetup").html((response.results[x].question));
+
+        var question = $("#triviaSetup").html();
+        var slackPostURL = "https://hooks.slack.com/services/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";
+        var message = "Question " + (x + 1) + ": " + question;
+        
+        $.ajax({
+          data: 'payload=' + JSON.stringify({
+              "text": message
+          }),
+          dataType: 'application/json',
+          processData: false,
+          type: 'POST',
+          url: slackPostURL
+        }).fail((xhr) => {
+
+            console.log(xhr);
+          
+        });
+          
+
+        setTimeout(function(){
+          var slackGetThreadURL = "https://slack.com/api/channels.history?token=" + api.slackToken + "&channel=C94B6F9GA&count=1";
+
+          $.ajax({
+            url: slackGetThreadURL,
+            method: "GET"
+          }).done(function(response){
+            console.log(response);
+
+            slackQuestion = response.messages[0].ts;
+
+  
+          }).fail((xhr) => {
+            if (xhr.status === 429) {
+              $('#random').html(`<p>Rate limited. Try again in a minute.</p>`);
+            }
+            else {
+              console.log(xhr);
+            }
+          });
+        },100);
+
+        console.log(slackQuestion);
+          
+
+
+  
+
+        var correctAnswer= response.results[x].correct_answer;
         answerArray.push(response.results[x].correct_answer);
         answerArray.push(response.results[x].incorrect_answers[0]);
         answerArray.push(response.results[x].incorrect_answers[1]);
         answerArray.push(response.results[x].incorrect_answers[2]);
         answerArray.sort()
-      var correctNumber = (answerArray.indexOf(correctAnswer) + 1)
+        var correctNumber = (answerArray.indexOf(correctAnswer) + 1)
 
         // creates buttons with id of its index value
         for (i = 0; i < answerArray.length; i++) {
@@ -173,14 +210,25 @@ var correctAnswer= response.results[x].correct_answer;
 
 
       // timer function
-      var counter = 10;
+      var counter = 20;
 
       var countdown = setInterval(function () {
         counter--;
         if (counter < 0) {
           answerArray = [];
-          counter = 10;
+          counter = 20;
           x = x + 1;
+
+          
+          var slackAnswerURL = "https://slack.com/api/channels.replies?token=" + api.slackToken + "&channel=C94B6F9GA&thread_ts=" + slackQuestion;
+
+          $.ajax({
+            url: slackAnswerURL,
+            method: "GET"
+          }).done(function(response){
+            console.log(response);
+          })
+
           trivia();
 
         }
