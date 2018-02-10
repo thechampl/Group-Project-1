@@ -101,84 +101,94 @@ $("#startGame").on("click", function () {
     .done(function (response) {
 
       var trivia = function () {
-        $("#triviaSetup").empty();
-        $("#triviaSetup").html((response.results[questionX].question));
 
-        //Send message to Slack channel with Trivia Question
-        var question = $("#triviaSetup").html();
-        var slackPostURL = "https://hooks.slack.com/services/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";
-        var message = "Question " + (questionX + 1) + ": " + question;
+        if (questionX < numberQuestions) {
         
-        $.ajax({
-          data: 'payload=' + JSON.stringify({
-              "text": message
-          }),
-          dataType: 'application/json',
-          processData: false,
-          type: 'POST',
-          url: slackPostURL
-        }).fail((xhr) => {
-            console.log(xhr);
-        });
+          $("#triviaSetup").empty();
+          $("#triviaSetup").html((response.results[questionX].question));
+
+          //Send message to Slack channel with Trivia Question
+          var question = $("#triviaSetup").html();
+          var slackPostURL = "https://hooks.slack.com/services/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";
+          var message = "Question " + (questionX + 1) + ": " + question;
           
-
-        //Quick delay to then pull the thread ID of the last message in the channel which would be the Question
-        //Store the thread ID in slackQuestion to use later to get thread replies
-        setTimeout(function(){
-          var slackGetThreadURL = "https://slack.com/api/channels.history?token=" + api.slackToken + "&channel=C94B6F9GA&count=1";
-
           $.ajax({
-            url: slackGetThreadURL,
-            method: "GET"
-          }).done(function(response){
-            console.log(response);
-
-            slackQuestion = response.messages[0].ts;
-
-  
+            data: 'payload=' + JSON.stringify({
+                "text": message
+            }),
+            dataType: 'application/json',
+            processData: false,
+            type: 'POST',
+            url: slackPostURL
           }).fail((xhr) => {
-            if (xhr.status === 429) {
-              $('#random').html(`<p>Rate limited. Try again in a minute.</p>`);
-            }
-            else {
               console.log(xhr);
-            }
           });
-        },100);
+            
 
-        console.log(slackQuestion);
-          
+          //Quick delay to then pull the thread ID of the last message in the channel which would be the Question
+          //Store the thread ID in slackQuestion to use later to get thread replies
+          setTimeout(function(){
+            var slackGetThreadURL = "https://slack.com/api/channels.history?token=" + api.slackToken + "&channel=C94B6F9GA&count=1";
 
+            $.ajax({
+              url: slackGetThreadURL,
+              method: "GET"
+            }).done(function(response){
+              console.log(response);
 
-  
-        //Get Correct Answer for each question
-        correctAnswer= response.results[questionX].correct_answer;
+              slackQuestion = response.messages[0].ts;
 
-        //Pushing answers into an array then sorting them
-        answerArray.push(response.results[questionX].correct_answer);
-        answerArray.push(response.results[questionX].incorrect_answers[0]);
-        answerArray.push(response.results[questionX].incorrect_answers[1]);
-        answerArray.push(response.results[questionX].incorrect_answers[2]);
-        answerArray.sort()
-
-        //Get the number of the correct answer
-        correctNumber = parseInt(answerArray.indexOf(correctAnswer) + 1);
-
-        // creates buttons with id of its index value (this is not being used now)
-        for (i = 0; i < answerArray.length; i++) {
-
-          var answerButton = $("<button class='btn btn-primary btn-lg btn-block'>");
-          answerButton.append(answerArray[i]);
-          $("#triviaSetup").append(answerButton);
-     
-        
     
+            }).fail((xhr) => {
+              if (xhr.status === 429) {
+                $('#random').html(`<p>Rate limited. Try again in a minute.</p>`);
+              }
+              else {
+                console.log(xhr);
+              }
+            });
+          },100);
+
+          console.log(slackQuestion);
+            
+
+
+    
+          //Get Correct Answer for each question
+          correctAnswer= response.results[questionX].correct_answer;
+
+          //Pushing answers into an array then sorting them
+          answerArray.push(response.results[questionX].correct_answer);
+          answerArray.push(response.results[questionX].incorrect_answers[0]);
+          answerArray.push(response.results[questionX].incorrect_answers[1]);
+          answerArray.push(response.results[questionX].incorrect_answers[2]);
+          answerArray.sort()
+
+          //Get the number of the correct answer
+          correctNumber = parseInt(answerArray.indexOf(correctAnswer) + 1);
+
+          // creates buttons with id of its index value (this is not being used now)
+          for (i = 0; i < answerArray.length; i++) {
+
+            var answerButton = $("<button class='btn btn-primary btn-lg btn-block'>");
+            answerButton.append(answerArray[i]);
+            $("#triviaSetup").append(answerButton);
+      
+          
+      
+          }
+
+          run();
+        } else {
+          endOfGame();
         }
 
-        run();
-
       }
+
+      
       trivia();
+      
+      
       
 
       //Timer functions
@@ -259,6 +269,8 @@ $("#startGame").on("click", function () {
           $("#triviaSetup").empty();
           $("#triviaSetup").html("<h1>The Top Players Are</h1>");
 
+          leaders();
+
           //Restart Game
           setTimeout(trivia, 5000);
 
@@ -275,8 +287,22 @@ $("#startGame").on("click", function () {
         }
       };
 
+      
+      function leaders() {
+       $("#triviaSetup").append($("<ol>").attr("id", "leaderBoard"));
+
+       userIDs.forEach(function(user){
+         $("#leaderBoard").append($("<li>").text(user));
+       })
+      }
 
       //On last question show leader board, say game over, highlight top 3
+
+      function endOfGame() {
+        $("#triviaSetup").html("<h1>Game Over!</h1>");
+
+        // leaders();
+      }
 
     
 
