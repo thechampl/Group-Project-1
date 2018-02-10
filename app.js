@@ -290,9 +290,25 @@ $("#startGame").on("click", function () {
       
       function leaders() {
        $("#triviaSetup").append($("<ol>").attr("id", "leaderBoard"));
+       var players = [];
 
-       userIDs.forEach(function(user){
-         $("#leaderBoard").append($("<li>").text(user));
+       database.ref("/players/").once("value").then(function(snapshot){
+        var remoteData = snapshot.val();
+        
+        snapshot.forEach(function(player) {
+          var playerInfo = player.val();
+
+          players.push(playerInfo);
+        })
+       })
+
+       console.log(players);
+
+       
+       //Currently not working
+       players.forEach(function(player){
+         console.log(player);
+         $("#leaderBoard").append($("<li>").text(player.name));
        })
       }
 
@@ -301,7 +317,22 @@ $("#startGame").on("click", function () {
       function endOfGame() {
         $("#triviaSetup").html("<h1>Game Over!</h1>");
 
-        // leaders();
+        var slackPostURL = "https://hooks.slack.com/services/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";
+        var message = "Game Over!";
+        
+        $.ajax({
+          data: 'payload=' + JSON.stringify({
+              "text": message
+          }),
+          dataType: 'application/json',
+          processData: false,
+          type: 'POST',
+          url: slackPostURL
+        }).fail((xhr) => {
+            console.log(xhr);
+        });
+
+        leaders();
       }
 
     
