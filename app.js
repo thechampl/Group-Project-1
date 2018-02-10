@@ -300,16 +300,24 @@ $("#startGame").on("click", function () {
 
           players.push(playerInfo);
         })
-       })
 
-       console.log(players);
+        
+        console.log("Unsorted", players);
+ 
+        players.sort(function(a,b) {
+          return b.score - a.score;
+        })
+ 
+        players.forEach(function(player){
+          console.log(player);
+          $("#leaderBoard").append($("<li>").text(player.name + " - " + player.score));
+        })
+       })
+       
 
        
-       //Currently not working
-       players.forEach(function(player){
-         console.log(player);
-         $("#leaderBoard").append($("<li>").text(player.name));
-       })
+      
+       
       }
 
       //On last question show leader board, say game over, highlight top 3
