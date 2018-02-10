@@ -79,7 +79,7 @@ $.ajax({
 $("#startGame").on("click", function () {
 
   var intervalId
-  var counter = 5;
+  var counter = 15;
 
   //Get #numberQuestions, #category, and #difficulty
   var numberQuestions = $("#numberQuestions").val();
@@ -162,7 +162,7 @@ $("#startGame").on("click", function () {
         answerArray.sort()
 
         //Get the number of the correct answer
-        correctNumber = (answerArray.indexOf(correctAnswer) + 1)
+        correctNumber = parseInt(answerArray.indexOf(correctAnswer) + 1);
 
         // creates buttons with id of its index value (this is not being used now)
         for (i = 0; i < answerArray.length; i++) {
@@ -183,7 +183,7 @@ $("#startGame").on("click", function () {
 
       //Timer functions
       function run() {
-        counter = 5;
+        counter = 15;
         intervalId = setInterval(decrement, 1000);
       }
 
@@ -215,11 +215,29 @@ $("#startGame").on("click", function () {
             for (i = 1; i < response.messages.length; i++ ){
               var answerUserID = response.messages[i].user;
               var answerUserAnswer = parseInt(response.messages[i].text);
+              var score
+
+              console.log(answerUserID + " answered " + answerUserAnswer + ". The correct answer was " + correctNumber);
 
               database.ref("/players/" + answerUserID + "/answer").set(answerUserAnswer);
 
-              
+              database.ref("/players/" + answerUserID + "/").on("value", function(snapshot){
+                score = snapshot.val().score;
+                console.log(score);
+                console.log(snapshot.val());
 
+              })
+
+              if(answerUserAnswer === correctNumber) {
+                console.log(answerUserID + " was correct!")
+                score += 1;
+
+                database.ref("/players/" + answerUserID + "/score").transaction(function(score) {
+                  return score + 1;
+                })
+              }
+
+              
               
             }
 
@@ -244,17 +262,11 @@ $("#startGame").on("click", function () {
           //Restart Game
           setTimeout(trivia, 5000);
 
-          counter = 5;
+          counter = 15;
 
         }, 5000);
 
-          
-
-          
-
-         
-
-          
+    
 
         }
         else {
@@ -262,12 +274,6 @@ $("#startGame").on("click", function () {
 
         }
       };
-
-
-      //At timeout, display correct answer and users who got it right
-
-
-      //At timeout, display leaderboard
 
 
       //On last question show leader board, say game over, highlight top 3
