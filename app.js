@@ -239,12 +239,16 @@ database.ref().on("value", function(snapshot){
                 method: "GET"
               }).done(function(response){
                 console.log(response);
+                var points = response.messages.length - 1;
     
                 //Get the text from each reply and look up the user in Firebase and set their answer to the text
                 for (i = 1; i < response.messages.length; i++ ){
                   var answerUserID = response.messages[i].user;
                   var answerUserAnswer = parseInt(response.messages[i].text);
                   var score
+
+                  
+                  console.log(points);
     
                   console.log(answerUserID + " answered " + answerUserAnswer + ". The correct answer was " + correctNumber);
     
@@ -259,14 +263,14 @@ database.ref().on("value", function(snapshot){
     
                   if(answerUserAnswer === correctNumber) {
                     console.log(answerUserID + " was correct!")
-                    score += questionX;
+                    score += points;
     
                     database.ref("/players/" + answerUserID + "/score").transaction(function(score) {
-                      return score + questionX;
+                      return score + points;
                     })
                   }
     
-                  
+                  points = points - 1;
                   
                 }
     
