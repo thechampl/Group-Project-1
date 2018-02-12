@@ -120,6 +120,7 @@ database.ref().on("value", function(snapshot){
         .done(function (response) {
     
           var trivia = function () {
+            
     
             if (questionX < numberQuestions) {
             
